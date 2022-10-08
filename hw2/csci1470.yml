@@ -1,0 +1,26 @@
+name: csci1470
+
+dependencies:
+  - python=3.8
+  - pip>=19.0
+  - jupyter
+  - jupyterlab
+  - scikit-learn
+  - scipy
+  - pandas
+  - pandas-datareader
+  - matplotlib=3.5
+  - numpy=1.19
+  - pillow
+  - tqdm
+  - h5py
+  - pyyaml
+  - pandoc
+  - ipywidgets
+  - pip:
+      - setuptools>=41.2
+      - tensorflow==2.5
+      - gradescope-utils>=0.3.1
+      - gym==0.19
+      - imageio==2.9
+      - kaggle
