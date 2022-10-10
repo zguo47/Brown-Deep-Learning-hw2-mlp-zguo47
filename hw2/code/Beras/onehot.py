@@ -29,8 +29,9 @@ class OneHotEncoder(Callable):
 
         ## HINT: Wouldn't it be nice if we just gave you the implementation somewhere...
 
-        self.uniq = None  # all the unique labels from `data`
-        self.uniq2oh = None  # a lookup dictionary with labels and corresponding encodings
+        self.uniq = np.unique(data)  # all the unique labels from `data`
+        matrix = np.eye(len(self.uniq))
+        self.uniq2oh = {e : matrix[i] for i,e in enumerate(self.uniq)}  # a lookup dictionary with labels and corresponding encodings
 
     def forward(self, data):
         if not hasattr(self, "uniq2oh"):

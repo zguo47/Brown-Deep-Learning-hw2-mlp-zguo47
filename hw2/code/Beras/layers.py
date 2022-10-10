@@ -1,3 +1,6 @@
+from tkinter import W
+from turtle import shape
+from xml.sax.xmlreader import InputSource
 import numpy as np
 
 from .core import Diffable
@@ -15,23 +18,30 @@ class Dense(Diffable):
 
     def forward(self, inputs):
         """Forward pass for a dense layer! Refer to lecture slides for how this is computed."""
-        self.inputs = inputs
+        self.inputs = inputs.reshape(-1, 784)
 
         # TODO: implement the forward pass and return the outputs
-        self.outputs = None
+        self.outputs = np.matmul(inputs, self.weights[0]) + self.weights[1]
         return self.outputs
 
     def weight_gradients(self):
         """Calculating the gradients wrt weights and biases!"""
         # TODO: Implement calculation of gradients
-        wgrads = None
-        bgrads = None
+        m = np.array(np.sum(self.inputs, axis=0)).transpose()
+        wgrads = np.array((m,) * self.w.shape[1]).transpose()
+        print(wgrads.shape)
+        # wgrads = np.array([self.w,] * self.inputs.shape[0])
+        bgrads = np.ones(self.w.shape[1])
         return wgrads, bgrads
 
     def input_gradients(self):
         """Calculating the gradients wrt inputs!"""
-        # TODO: Implement calculation of gradients
-        return None
+        # TODO: Implement calculation of gradients        
+        x = np.array([self.w,] * self.inputs.shape[0])
+        print(x.shape)
+        return x
+
+        
 
     @staticmethod
     def _initialize_weight(initializer, input_size, output_size):
@@ -65,5 +75,17 @@ class Dense(Diffable):
 
         # TODO: Implement remaining options (normal, xavier, kaiming initializations). Note that
         # strings must be exactly as written in the assert above
+        weights = np.zeros(io_size)
+        bias = np.zeros(output_size)
 
-        return None, None
+        if initializer == "Normal":
+            weights = np.random.normal(0, 1, io_size)
+        
+        if initializer == "Xavier":
+            weights = np.random.normal(0, np.sqrt(2/(input_size + output_size)), io_size)
+        
+        if initializer == "Kaiming":
+            weights = np.random.normal(0, np.sqrt(2/input_size), io_size)
+
+        bias = bias.reshape(1, output_size)
+        return weights, bias

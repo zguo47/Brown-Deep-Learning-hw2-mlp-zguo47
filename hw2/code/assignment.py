@@ -1,6 +1,7 @@
 from types import SimpleNamespace
 
 import Beras
+from Beras.core import Diffable
 import numpy as np
 
 
@@ -20,7 +21,10 @@ class SequentialModel(Beras.Model):
         you can refer to them with self.layers. You can call a layer by doing var = layer(input).
         """
         # TODO: The call function!
-        return None
+        var = inputs
+        for layer in self.layers:
+            var = layer(var)
+        return var
 
     def batch_step(self, x, y, training=True):
         """
@@ -31,7 +35,15 @@ class SequentialModel(Beras.Model):
         """
         # TODO: Compute loss and accuracy for a batch.
         # If training, then also update the gradients according to the optimizer
-        return {"loss": None, "acc": None}
+        Diffable.gradient_tape = Beras.GradientTape()
+        with Diffable.gradient_tape as tape:
+            logits = self.call(x)
+            loss = self.compiled_loss.forward(logits, y)
+        grads = tape.gradient()
+        if training == True:
+            self.optimizer.apply_gradients(self.trainable_variables, grads)
+        acc = self.compiled_acc.forward(logits, y)
+        return {"loss": loss, "acc": acc}
 
 
 def get_simple_model_components():
@@ -47,7 +59,7 @@ def get_simple_model_components():
     from Beras.optimizers import BasicOptimizer
 
     # TODO: create a model and compile it with layers and functions of your choice
-    model = SequentialModel([Dense(784, 10), Softmax()])
+    model = SequentialModel([Dense(784, 10)])
     model.compile(
         optimizer=BasicOptimizer(0.02),
         loss_fn=MeanSquaredError(),
@@ -78,10 +90,10 @@ if __name__ == "__main__":
     test_inputs,  test_labels  = preprocess.get_data_MNIST("test",  "../data")
 
     ## TODO: Use the OneHotEncoder class to one hot encode the labels
-    ohe = lambda x: 0  ## placeholder function: returns zero for a given input
+    ohe = lambda x: OneHotEncoder().forward(x)  ## placeholder function: returns zero for a given input
 
     ## Get your model to train and test
-    simple = False
+    simple = True
     args = get_simple_model_components() if simple else get_advanced_model_components()
     model = args.model
 

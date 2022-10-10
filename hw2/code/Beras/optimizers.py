@@ -9,7 +9,8 @@ class BasicOptimizer:
 
     def apply_gradients(self, weights, grads):
         # TODO: Update the weights using basic stochastic gradient descent
-        return
+        weights = weights - self.learning_rate * grads
+        return weights
 
 
 class RMSProp:
@@ -24,7 +25,9 @@ class RMSProp:
     def apply_gradients(self, weights, grads):
         # TODO: Implement RMSProp optimization
         # Refer to the lab on Optimizers for a better understanding!
-        return
+        self.v[0] = self.beta*self.v[0] + (1-self.beta)*(grads**2)
+        weights = weights - self.learning_rate/(np.sqrt(self.v[0])+self.epsilon)*grads
+        return weights
 
 
 class Adam:
@@ -49,4 +52,11 @@ class Adam:
     def apply_gradients(self, weights, grads):
         # TODO: Implement Adam optimization
         # Refer to the lab on Optimizers for a better understanding!
+        self.t += 1
+        self.m[self.t] = self.beta_1*self.m[self.t-1] + (1-self.beta_1)*grads
+        self.v[self.t] = self.beta_2*self.v[self.t-1] + (1-self.beta_2)*(grads**2)
+
+        self.m_hat[self.t] = self.m[self.t-1]/(1-np.power(self.beta_1, self.t))
+        self.v_hat[self.t] = self.v[self.t-1]/(1-np.power(self.beta_2, self.t))
+        weights = weights - self.learning_rate * self.m_hat[self.t]/(np.sqrt(self.v_hat[self.t])+self.epsilon)
         return

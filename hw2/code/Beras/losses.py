@@ -17,13 +17,13 @@ class MeanSquaredError(Diffable):
         self.y_true = y_true
 
         # Your code here:
-        self.outputs = None
-        return None
+        self.outputs = np.sum((self.y_pred-self.y_true)**2)/self.y_pred.size
+        return self.outputs
 
     def input_gradients(self):
         """Mean squared error backpropagation!"""
         # TODO: Compute and return the gradients
-        return None
+        return 2 * (self.y_pred-self.y_true) / self.y_pred.size
 
 
 def clip_0_1(x, eps=1e-8):

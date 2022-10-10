@@ -98,11 +98,16 @@ class Diffable(Callable):
             j_new = np.zeros((batch_size, *w.shape), dtype=wg.dtype)
             ## For every element in the batch (for a single batch-level gradient updates)
             for b in range(batch_size):
+                print(b)
                 ## If the weight gradient is a batch of transform matrices, get the right entry.
                 ## Allows gradient methods to give either batched or non-batched matrices
                 wg_b = wg[b] if len(wg.shape) == 3 else wg
                 ## Update the batch's Jacobian update contribution
+                print("wg_b", wg_b.shape)
+                print("J[b]", J[b].shape)
+
                 j_new[b] = wg_b * J[b]
+                print("j_new[b]", j_new[b].shape)
             ## The final jacobian for this weight is the average gradient update for the batch
             J_out += [np.mean(j_new, axis=0)]
         ## After new jacobian is computed for each weight set, return the list of gradient updatates
@@ -132,7 +137,7 @@ class GradientTape:
         ##  If the model has trainable weights [w1, b1, w2, b2] and ends at a loss L.
         ##  the model should return: [dL/dw1, dL/db1, dL/dw2, dL/db2]
         ##
-        ##  Recall that self.operations is populated by Diffable class instances...
+        ##  Recall that self.operations is populat~ed by Diffable class instances...
         ##
         ##  Start from the last operation and compute jacobian w.r.t input.
         ##  Continue to propagate the cumulative jacobian through the layer inputs
@@ -143,4 +148,10 @@ class GradientTape:
         ##  Remember to check if the layer is trainable before doing this though...
 
         grads = []
+        inputs = self.operations[-1].input_gradients()
+        for op in reversed(self.operations):
+            if hasattr(op, "weights") and op.trainable:
+                grads = (op.compose_to_weight(inputs)) + grads
+                
+            inputs = op.compose_to_input(inputs)
         return grads
