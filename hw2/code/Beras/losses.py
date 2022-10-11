@@ -13,8 +13,8 @@ class MeanSquaredError(Diffable):
     def forward(self, y_pred, y_true):
         """Mean squared error forward pass!"""
         # TODO: Compute and return the MSE given predicted and actual labels
-        self.y_pred = y_pred
-        self.y_true = y_true
+        self.y_pred = np.array(y_pred)
+        self.y_true = np.array(y_true)
 
         # Your code here:
         self.outputs = np.sum((self.y_pred-self.y_true)**2)/self.y_pred.shape[1]
