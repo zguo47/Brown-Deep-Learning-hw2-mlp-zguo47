@@ -9,8 +9,8 @@ class BasicOptimizer:
 
     def apply_gradients(self, weights, grads):
         # TODO: Update the weights using basic stochastic gradient descent
-        weights = np.array(weights)
-        weights -= self.learning_rate * np.array(grads)
+        for i in range(len(weights)):
+            weights[i] -= self.learning_rate * grads[i]
         return weights
 
 
