@@ -58,11 +58,12 @@ def get_simple_model_components():
     from Beras.losses import CategoricalCrossentropy
     from Beras.metrics import CategoricalAccuracy
     from Beras.optimizers import BasicOptimizer
+    from Beras.optimizers import RMSProp
 
     # TODO: create a model and compile it with layers and functions of your choice
     model = SequentialModel([Dense(784, 10)])
     model.compile(
-        optimizer=BasicOptimizer(0.02),
+        optimizer=RMSProp(0.02),
         loss_fn=CategoricalCrossentropy(),
         acc_fn=CategoricalAccuracy(),
     )
