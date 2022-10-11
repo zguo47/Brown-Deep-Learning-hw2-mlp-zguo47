@@ -60,5 +60,6 @@ class Adam:
 
         self.m_hat[self.t] = self.m[self.t-1]/(1-np.power(self.beta_1, self.t))
         self.v_hat[self.t] = self.v[self.t-1]/(1-np.power(self.beta_2, self.t))
-        weights = weights - self.learning_rate * self.m_hat[self.t]/(np.sqrt(self.v_hat[self.t])+self.epsilon)
+        for i in range(len(weights)):
+            weights[i] -= self.learning_rate * self.m_hat[self.t]/(np.sqrt(self.v_hat[self.t])+self.epsilon)
         return
