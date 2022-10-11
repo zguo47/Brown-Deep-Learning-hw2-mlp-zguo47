@@ -17,7 +17,7 @@ class MeanSquaredError(Diffable):
         self.y_true = y_true
 
         # Your code here:
-        self.outputs = np.mean((self.y_pred-self.y_true)**2)
+        self.outputs = np.mean(np.square(self.y_pred-self.y_true))
         return self.outputs
 
     def input_gradients(self):
