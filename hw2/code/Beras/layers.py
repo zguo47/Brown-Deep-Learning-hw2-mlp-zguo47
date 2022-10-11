@@ -32,7 +32,7 @@ class Dense(Diffable):
             m = np.array([i,] * self.w.shape[-1]).transpose()
             wgrads.append(m)
         wgrads = np.array(wgrads)
-        bgrads = np.ones(self.w.shape)
+        bgrads = np.ones(self.w.shape[1])
         return wgrads, bgrads
 
     def input_gradients(self):
