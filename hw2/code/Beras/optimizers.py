@@ -28,7 +28,10 @@ class RMSProp:
         # Refer to the lab on Optimizers for a better understanding!
         for i in range(len(weights)):
             self.v[i] = self.beta*self.v[i] + (1-self.beta)*(grads[i]**2)
-            weights[i] -= self.learning_rate/(np.sqrt(self.v[i])+self.epsilon)*grads[i]
+            print(weights[i].shape)
+            print(self.v[i].shape)
+            print(grads[i].shape)
+            weights[i] -= self.learning_rate * grads[i]/(np.sqrt(self.v[i])+self.epsilon)
         return weights
 
 

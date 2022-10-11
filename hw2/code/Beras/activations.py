@@ -16,8 +16,8 @@ class LeakyReLU(Diffable):
         # Your code here:
         new_list = []
         for item in self.inputs:
-            if item < 0:
-                new_list.append(self.alpha*item)
+            ls = np.array([i if i >= 0 else i * self.alpha for i in item])
+            new_list.append(ls)
         self.outputs = np.array(new_list)
         return self.outputs
 

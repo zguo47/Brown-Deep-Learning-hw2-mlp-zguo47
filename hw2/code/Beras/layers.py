@@ -18,7 +18,7 @@ class Dense(Diffable):
 
     def forward(self, inputs):
         """Forward pass for a dense layer! Refer to lecture slides for how this is computed."""
-        self.inputs = inputs.reshape(-1, 784)
+        self.inputs = inputs
 
         # TODO: implement the forward pass and return the outputs
         self.outputs = np.matmul(inputs, self.weights[0]) + self.weights[1]
@@ -27,11 +27,12 @@ class Dense(Diffable):
     def weight_gradients(self):
         """Calculating the gradients wrt weights and biases!"""
         # TODO: Implement calculation of gradients
-        m = np.sum(self.inputs, axis=0).transpose()
-        wgrads = np.array([m,] * self.w.shape[1]).transpose()
-        print(wgrads.shape)
-        # wgrads = np.array([self.w,] * self.inputs.shape[0])
-        bgrads = np.ones(self.w.shape[1])
+        wgrads = []
+        for i in self.inputs:
+            m = np.array([i,] * self.w.shape[-1]).transpose()
+            wgrads.append(m)
+        wgrads = np.array(wgrads)
+        bgrads = np.ones(self.w.shape)
         return wgrads, bgrads
 
     def input_gradients(self):

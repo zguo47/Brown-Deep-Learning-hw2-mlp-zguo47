@@ -1,6 +1,7 @@
 from types import SimpleNamespace
 
 import Beras
+from Beras.activations import LeakyReLU
 from Beras.core import Diffable
 import numpy as np
 
@@ -38,11 +39,12 @@ class SequentialModel(Beras.Model):
         Diffable.gradient_tape = Beras.GradientTape()
         with Diffable.gradient_tape as tape:
             logits = self.call(x)
-            loss = self.compiled_loss.forward(logits, y)
+            loss = self.compiled_loss.forward(y, logits)
         grads = tape.gradient()
+        print(grads[0].shape)
         if training == True:
             self.optimizer.apply_gradients(self.trainable_variables, grads)
-        acc = self.compiled_acc.forward(logits, y)
+        acc = self.compiled_acc.forward(y, logits)
         return {"loss": loss, "acc": acc}
 
 
@@ -61,9 +63,9 @@ def get_simple_model_components():
     from Beras.optimizers import RMSProp
 
     # TODO: create a model and compile it with layers and functions of your choice
-    model = SequentialModel([Dense(784, 10)])
+    model = SequentialModel([Dense(784, 10),  LeakyReLU(0.1)])
     model.compile(
-        optimizer=RMSProp(0.02),
+        optimizer=BasicOptimizer(0.02),
         loss_fn=CategoricalCrossentropy(),
         acc_fn=CategoricalAccuracy(),
     )
