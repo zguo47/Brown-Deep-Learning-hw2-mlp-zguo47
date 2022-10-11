@@ -37,9 +37,7 @@ class Dense(Diffable):
     def input_gradients(self):
         """Calculating the gradients wrt inputs!"""
         # TODO: Implement calculation of gradients        
-        x = np.array([self.w,] * self.inputs.shape[0])
-        print(x.shape)
-        return x
+        return self.w
 
         
 
