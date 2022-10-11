@@ -9,7 +9,8 @@ class BasicOptimizer:
 
     def apply_gradients(self, weights, grads):
         # TODO: Update the weights using basic stochastic gradient descent
-        weights = weights - self.learning_rate * grads
+        weights[0] -= self.learning_rate * grads[0]
+        weights[1] -= self.learning_rate * grads[1]
         return weights
 
 
@@ -25,8 +26,9 @@ class RMSProp:
     def apply_gradients(self, weights, grads):
         # TODO: Implement RMSProp optimization
         # Refer to the lab on Optimizers for a better understanding!
-        self.v[0] = self.beta*self.v[0] + (1-self.beta)*(grads**2)
-        weights = weights - self.learning_rate/(np.sqrt(self.v[0])+self.epsilon)*grads
+        for i in range(len(weights)):
+            self.v[i] = self.beta*self.v[i] + (1-self.beta)*(grads[i]**2)
+            weights -= self.learning_rate/(np.sqrt(self.v[i])+self.epsilon)*grads[i]
         return weights
 
 

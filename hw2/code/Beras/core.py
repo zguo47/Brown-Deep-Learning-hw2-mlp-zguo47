@@ -148,10 +148,14 @@ class GradientTape:
         ##  Remember to check if the layer is trainable before doing this though...
 
         grads = []
+        if hasattr(self.operations[-1], "weights") and self.operations[-1].trainable:
+            w, b = self.operations[-1].weight_gradients()
+            grads = [w, b]    
         inputs = self.operations[-1].input_gradients()
-        for op in reversed(self.operations):
+        for op in self.operations[:-1][::-1]:
             if hasattr(op, "weights") and op.trainable:
                 grads = (op.compose_to_weight(inputs)) + grads
                 
             inputs = op.compose_to_input(inputs)
+            # print("gradient tape inputs", inputs.shape)
         return grads

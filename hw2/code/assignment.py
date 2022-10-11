@@ -55,6 +55,7 @@ def get_simple_model_components():
     from Beras.activations import Softmax
     from Beras.layers import Dense
     from Beras.losses import MeanSquaredError
+    from Beras.losses import CategoricalCrossentropy
     from Beras.metrics import CategoricalAccuracy
     from Beras.optimizers import BasicOptimizer
 
@@ -62,7 +63,7 @@ def get_simple_model_components():
     model = SequentialModel([Dense(784, 10)])
     model.compile(
         optimizer=BasicOptimizer(0.02),
-        loss_fn=MeanSquaredError(),
+        loss_fn=CategoricalCrossentropy(),
         acc_fn=CategoricalAccuracy(),
     )
     return SimpleNamespace(model=model, epochs=10, batch_size=100)

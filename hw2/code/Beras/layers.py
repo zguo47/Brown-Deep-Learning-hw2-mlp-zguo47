@@ -27,8 +27,8 @@ class Dense(Diffable):
     def weight_gradients(self):
         """Calculating the gradients wrt weights and biases!"""
         # TODO: Implement calculation of gradients
-        m = np.array(np.sum(self.inputs, axis=0)).transpose()
-        wgrads = np.array((m,) * self.w.shape[1]).transpose()
+        m = np.sum(self.inputs, axis=0).transpose()
+        wgrads = np.array([m,] * self.w.shape[1]).transpose()
         print(wgrads.shape)
         # wgrads = np.array([self.w,] * self.inputs.shape[0])
         bgrads = np.ones(self.w.shape[1])
