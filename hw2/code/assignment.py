@@ -87,7 +87,9 @@ def get_advanced_model_components():
     from Beras.optimizers import RMSProp
     model = SequentialModel([Dense(784, 100),  
     LeakyReLU(0.01), 
-    Dense(100, 10)])
+    Dense(100, 20),
+    LeakyReLU(0.01), 
+    Dense(20, 10)])
     model.compile(
         optimizer=Adam(0.003),
         loss_fn=MeanSquaredError(),
