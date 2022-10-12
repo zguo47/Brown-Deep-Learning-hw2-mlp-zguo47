@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from collections import defaultdict
-from pickle import FALSE
 
 import numpy as np
 

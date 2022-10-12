@@ -1,5 +1,4 @@
-from tkinter import W
-from xml.sax.xmlreader import InputSource
+
 import numpy as np
 
 from .core import Diffable
