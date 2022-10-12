@@ -1,5 +1,4 @@
 from tkinter import W
-from turtle import shape
 from xml.sax.xmlreader import InputSource
 import numpy as np
 
