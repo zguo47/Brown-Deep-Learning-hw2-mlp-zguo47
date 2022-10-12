@@ -8,5 +8,5 @@ class CategoricalAccuracy(Callable):
         """Categorical accuracy forward pass!"""
         super().__init__()
         # TODO: Compute and return the categorical accuracy of your model given the output probabilities and true labels
-        max = np.array([np.argmax(prb) for prb in probs])
-        return np.sum(np.array([np.argmax(probs[i]) == np.argmax(labels[i]) for i in range (0, len(labels))]))/len(labels)
+        # max = np.array([np.argmax(prb) for prb in probs])
+        return np.mean(np.argmax(probs, axis=1) == np.argmax(labels, axis=1))

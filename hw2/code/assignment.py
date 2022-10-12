@@ -39,12 +39,11 @@ class SequentialModel(Beras.Model):
         Diffable.gradient_tape = Beras.GradientTape()
         with Diffable.gradient_tape as tape:
             logits = self.call(x)
-            loss = self.compiled_loss.forward(y, logits)
-        grads = tape.gradient()
-        print(grads[0].shape)
-        if training == True:
-            self.optimizer.apply_gradients(self.trainable_variables, grads)
-        acc = self.compiled_acc.forward(y, logits)
+            loss = self.compiled_loss(logits, y)
+            grads = tape.gradient()
+            if training == True:
+                self.optimizer.apply_gradients(self.trainable_variables, grads)
+        acc = self.compiled_acc.forward(logits, y)
         return {"loss": loss, "acc": acc}
 
 
@@ -90,7 +89,7 @@ def get_advanced_model_components():
     LeakyReLU(0.1)])
     model.compile(
         optimizer=RMSProp(0.02),
-        loss_fn=MeanSquaredError(),
+        loss_fn=CategoricalCrossentropy(),
         acc_fn=CategoricalAccuracy(),
     )
 
