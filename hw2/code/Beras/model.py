@@ -96,7 +96,7 @@ class Model(ABC):
         # epoch_metrics = defaultdict(lambda: [])
         for b, b1 in enumerate(range(batch_size, x.shape[0] + 1, batch_size)):
             b0 = b1 - batch_size
-            batch_metrics = self.batch_step(x[b0:b1], y[b0:b1], training=FALSE)
+            batch_metrics = self.batch_step(x[b0:b1], y[b0:b1], training=False)
             update_metric_dict(agg_metrics, batch_metrics)
             print_stats(batch_metrics, b, batch_num)
         update_metric_dict(agg_metrics, batch_metrics)
