@@ -65,7 +65,7 @@ def get_simple_model_components():
     # TODO: create a model and compile it with layers and functions of your choice
     model = SequentialModel([Dense(784, 10),  LeakyReLU(0.1)])
     model.compile(
-        optimizer=BasicOptimizer(0.02),
+        optimizer=RMSProp(0.02),
         loss_fn=CategoricalCrossentropy(),
         acc_fn=CategoricalAccuracy(),
     )
@@ -77,9 +77,24 @@ def get_advanced_model_components():
     Returns a multi-layered model with more involved components.
     """
     # TODO: create/compile a model with layers and functions of your choice.
-    # model = SequentialModel()
+    from Beras.activations import Softmax
+    from Beras.layers import Dense
+    from Beras.losses import MeanSquaredError
+    from Beras.losses import CategoricalCrossentropy
+    from Beras.metrics import CategoricalAccuracy
+    from Beras.optimizers import BasicOptimizer
+    from Beras.optimizers import RMSProp
+    model = SequentialModel([Dense(784, 100),  
+    LeakyReLU(0.1), 
+    Dense(100, 10),  
+    LeakyReLU(0.1)])
+    model.compile(
+        optimizer=RMSProp(0.02),
+        loss_fn=CategoricalCrossentropy(),
+        acc_fn=CategoricalAccuracy(),
+    )
 
-    return SimpleNamespace(model=None, epochs=None, batch_size=None)
+    return SimpleNamespace(model=model, epochs=10, batch_size=100)
 
 
 if __name__ == "__main__":
@@ -97,7 +112,7 @@ if __name__ == "__main__":
     ohe = lambda x: OneHotEncoder().forward(x)  ## placeholder function: returns zero for a given input
 
     ## Get your model to train and test
-    simple = True
+    simple = True 
     args = get_simple_model_components() if simple else get_advanced_model_components()
     model = args.model
 

@@ -19,7 +19,7 @@ class LeakyReLU(Diffable):
             ls = np.array([i if i >= 0 else i * self.alpha for i in item])
             new_list.append(ls)
         self.outputs = np.array(new_list)
-        return np.array(self.outputs)
+        return self.outputs
 
     def input_gradients(self):
         # TODO: Compute and return the gradients

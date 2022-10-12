@@ -79,12 +79,15 @@ class Dense(Diffable):
 
         if initializer == "Normal":
             weights = np.random.normal(0, 1, io_size)
+            bias = np.random.normal(0, 1, output_size)
         
         if initializer == "Xavier":
             weights = np.random.normal(0, np.sqrt(2/(input_size + output_size)), io_size)
+            bias = np.random.normal(0, np.sqrt(2 / (input_size + output_size)), output_size)
         
         if initializer == "Kaiming":
             weights = np.random.normal(0, np.sqrt(2/input_size), io_size)
+            bias = np.random.normal(0, np.sqrt(2/input_size), output_size)
 
-        bias = bias.reshape(1, output_size)
+        # bias = bias.reshape(1, output_size)
         return weights, bias
