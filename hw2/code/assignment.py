@@ -66,7 +66,7 @@ def get_simple_model_components():
     # TODO: create a model and compile it with layers and functions of your choice
     model = SequentialModel([Dense(784, 10), LeakyReLU(0.01)])
     model.compile(
-        optimizer=Adam(0.005),
+        optimizer=RMSProp(0.005),
         loss_fn=MeanSquaredError(),
         acc_fn=CategoricalAccuracy(),
     )
@@ -91,7 +91,7 @@ def get_advanced_model_components():
     LeakyReLU(0.01), 
     Dense(20, 10)])
     model.compile(
-        optimizer=RMSProp(0.01),
+        optimizer=Adam(0.01),
         loss_fn=CategoricalCrossentropy(),
         acc_fn=CategoricalAccuracy(),
     )
