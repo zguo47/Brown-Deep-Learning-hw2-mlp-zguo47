@@ -22,7 +22,7 @@ class SequentialModel(Beras.Model):
         you can refer to them with self.layers. You can call a layer by doing var = layer(input).
         """
         # TODO: The call function!
-        var = inputs
+        var = np.copy(inputs)
         for layer in self.layers:
             var = layer(var)
         return var
@@ -90,7 +90,7 @@ def get_advanced_model_components():
     LeakyReLU(0.1)])
     model.compile(
         optimizer=RMSProp(0.02),
-        loss_fn=CategoricalCrossentropy(),
+        loss_fn=MeanSquaredError(),
         acc_fn=CategoricalAccuracy(),
     )
 

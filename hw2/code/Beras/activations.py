@@ -14,23 +14,25 @@ class LeakyReLU(Diffable):
         # TODO: Given an input array `x`, compute LeakyReLU(x)
         self.inputs = inputs
         # Your code here:
-        new_list = []
-        for item in self.inputs:
-            ls = np.array([i if i >= 0 else i * self.alpha for i in item])
-            new_list.append(ls)
-        self.outputs = np.array(new_list)
+        # new_list = []
+        # for item in self.inputs:
+        #     ls = np.array([i if i >= 0 else i * self.alpha for i in item])
+        #     new_list.append(ls)
+        # self.outputs = np.array(new_list)
+        self.outputs = np.where(inputs > 0, inputs, inputs * self.alpha)
         return self.outputs
 
     def input_gradients(self):
         # TODO: Compute and return the gradients
-        ls = []
-        for i, item in enumerate(self.outputs):
-            ls.append(item/self.inputs[i])
-        return np.array(ls)
+        # ls = []
+        # for i, item in enumerate(self.outputs):
+        #     ls.append(item/self.inputs[i])
+        input_gradients = np.where(self.inputs > 0, 1, self.alpha)
+        return input_gradients
 
     def compose_to_input(self, J):
         # TODO: Maybe you'll want to override the default?
-        return super().compose_to_input(J)
+        return self.input_gradients * J
 
 
 class ReLU(LeakyReLU):
