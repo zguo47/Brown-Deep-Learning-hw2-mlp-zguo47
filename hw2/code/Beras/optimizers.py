@@ -54,9 +54,10 @@ class Adam:
     def apply_gradients(self, weights, grads):
         # TODO: Implement Adam optimization
         # Refer to the lab on Optimizers for a better understanding!
+        self.t +=1
         for i in range(len(weights)):
-            self.m[i] = self.beta_1*self.m[i] + (1-self.beta_1)*grads
-            self.v[i] = self.beta_2*self.v[i] + (1-self.beta_2)*(grads**2)
+            self.m[i] = self.beta_1*self.m[i] + (1-self.beta_1)*grads[i]
+            self.v[i] = self.beta_2*self.v[i] + (1-self.beta_2)*(grads[i]**2)
             self.m_hat[i] = self.m[i]/(1-np.power(self.beta_1, self.t))
             self.v_hat[i] = self.v[i]/(1-np.power(self.beta_2, self.t))
             weights[i] -= self.learning_rate * self.m_hat[i]/(np.sqrt(self.v_hat[i])+self.epsilon)
