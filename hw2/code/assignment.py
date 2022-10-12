@@ -66,7 +66,7 @@ def get_simple_model_components():
     # TODO: create a model and compile it with layers and functions of your choice
     model = SequentialModel([Dense(784, 10), LeakyReLU(0.01)])
     model.compile(
-        optimizer=BasicOptimizer(0.1),
+        optimizer=Adam(0.005),
         loss_fn=CategoricalCrossentropy(),
         acc_fn=CategoricalAccuracy(),
     )
@@ -115,7 +115,7 @@ if __name__ == "__main__":
     ohe = lambda x: OneHotEncoder().forward(x)  ## placeholder function: returns zero for a given input
 
     ## Get your model to train and test
-    simple = False
+    simple = True
     args = get_simple_model_components() if simple else get_advanced_model_components()
     model = args.model
 
