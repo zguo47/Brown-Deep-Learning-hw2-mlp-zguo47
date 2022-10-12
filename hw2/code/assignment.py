@@ -89,8 +89,7 @@ def get_advanced_model_components():
     LeakyReLU(0.01), 
     Dense(100, 20),  
     LeakyReLU(0.01), 
-    Dense(20, 10),
-    LeakyReLU(0.01)])
+    Dense(20, 10)])
     model.compile(
         optimizer=RMSProp(0.01),
         loss_fn=CategoricalCrossentropy(),
