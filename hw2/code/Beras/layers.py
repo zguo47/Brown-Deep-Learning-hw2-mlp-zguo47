@@ -30,7 +30,7 @@ class Dense(Diffable):
             m = np.array([i,] * self.w.shape[-1]).transpose()
             wgrads.append(m)
         wgrads = np.array(wgrads)
-        bgrads = np.ones(self.w.shape[1])
+        bgrads = np.ones(self.b.shape)
         return wgrads, bgrads
 
     def input_gradients(self):
@@ -75,15 +75,15 @@ class Dense(Diffable):
         weights = np.zeros(io_size)
         bias = np.zeros(output_size)
 
-        if initializer == "Normal":
+        if initializer == "normal":
             weights = np.random.normal(0, 1, io_size)
             bias = np.random.normal(0, 1, output_size)
         
-        if initializer == "Xavier":
+        if initializer == "xavier":
             weights = np.random.normal(0, np.sqrt(2/(input_size + output_size)), io_size)
             bias = np.random.normal(0, np.sqrt(2 / (input_size + output_size)), output_size)
         
-        if initializer == "Kaiming":
+        if initializer == "kaiming":
             weights = np.random.normal(0, np.sqrt(2/input_size), io_size)
             bias = np.random.normal(0, np.sqrt(2/input_size), output_size)
 

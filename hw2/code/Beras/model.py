@@ -92,7 +92,7 @@ class Model(ABC):
         """
         # TODO: Implement evaluate similarly to fit.
         agg_metrics = defaultdict(lambda: [])
-        batch_num = x.shape[0] // batch_size
+        batch_num = x.shape[0]
         # epoch_metrics = defaultdict(lambda: [])
         for b, b1 in enumerate(range(batch_size, x.shape[0] + 1, batch_size)):
             b0 = b1 - batch_size
