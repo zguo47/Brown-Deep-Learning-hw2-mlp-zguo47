@@ -32,7 +32,7 @@ class LeakyReLU(Diffable):
 
     def compose_to_input(self, J):
         # TODO: Maybe you'll want to override the default?
-        return self.input_gradients * J
+        return self.input_gradients() * J
 
 
 class ReLU(LeakyReLU):
