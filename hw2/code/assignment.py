@@ -87,12 +87,10 @@ def get_advanced_model_components():
     from Beras.optimizers import RMSProp
     model = SequentialModel([Dense(784, 100),  
     LeakyReLU(0.01), 
-    Dense(100, 20),  
-    LeakyReLU(0.01), 
-    Dense(20, 10)])
+    Dense(100, 10)])
     model.compile(
-        optimizer=Adam(0.01),
-        loss_fn=CategoricalCrossentropy(),
+        optimizer=Adam(0.003),
+        loss_fn=MeanSquaredError(),
         acc_fn=CategoricalAccuracy(),
     )
 
@@ -114,7 +112,7 @@ if __name__ == "__main__":
     ohe = lambda x: OneHotEncoder().forward(x)  ## placeholder function: returns zero for a given input
 
     ## Get your model to train and test
-    simple = True
+    simple = False  
     args = get_simple_model_components() if simple else get_advanced_model_components()
     model = args.model
 
