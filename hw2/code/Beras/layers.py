@@ -19,7 +19,7 @@ class Dense(Diffable):
         self.inputs = inputs
 
         # TODO: implement the forward pass and return the outputs
-        self.outputs = np.matmul(inputs, self.weights[0]) + self.weights[1]
+        self.outputs = np.matmul(inputs, self.w) + self.b
         return self.outputs
 
     def weight_gradients(self):
@@ -30,6 +30,8 @@ class Dense(Diffable):
             m = np.array([i,] * self.w.shape[-1]).transpose()
             wgrads.append(m)
         wgrads = np.array(wgrads)
+        # w = np.tile(self.inputs, (np.shape(self.w)[1], 1, 1))
+        # wgrads = np.transpose(w, (1, 2, 0))
         bgrads = np.ones(self.b.shape)
         return wgrads, bgrads
 
