@@ -67,7 +67,7 @@ def get_simple_model_components():
     model = SequentialModel([Dense(784, 10), LeakyReLU(0.01)])
     model.compile(
         optimizer=Adam(0.005),
-        loss_fn=CategoricalCrossentropy(),
+        loss_fn=MeanSquaredError(),
         acc_fn=CategoricalAccuracy(),
     )
     return SimpleNamespace(model=model, epochs=10, batch_size=100)
